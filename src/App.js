@@ -1,13 +1,15 @@
  
-import './dev.css';
-import { Login } from './components/Auth/login';
-import { Register } from './components/Auth/register';
+import './dev.css';  
+import Sections from './components/Sections';
+import Header from './components/layouts/Header';
+import Footer from './components/layouts/Footer';
 
 function App() {
   return (
     <div className="App">
-        <Login/>
-        <Register/>
+      <Header/> 
+         <Sections/>
+      <Footer/>
     </div>
   );
 }
