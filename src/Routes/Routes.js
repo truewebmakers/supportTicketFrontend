@@ -4,9 +4,7 @@ import Contactus from '../components/pages/Contactus';
 import Aboutus from '../components/pages/Aboutus';
 
 import { Login } from '../components/Auth/login';
-import { Register } from '../components/Auth/register';
-import { Route } from 'react-router-dom';
-
+import { Register } from '../components/Auth/register'; 
 
 export const RouteList = [
     {

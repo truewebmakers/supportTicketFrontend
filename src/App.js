@@ -4,9 +4,12 @@ import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import NotFound from "./components/pages/NotFound";
 import Layout from "./components/pages/Layout";
 import { RouteList } from "./Routes/Routes"; 
+import ToastProvider from "./ToastProvider";
 
 function App() {
   return (  
+    <>
+    <ToastProvider />
       <Router> 
         <Routes> 
           <Route path="/" element={<Layout />}> 
@@ -19,6 +22,8 @@ function App() {
           </Route> 
         </Routes>
       </Router> 
+    </>
+    
   );
 }
 
