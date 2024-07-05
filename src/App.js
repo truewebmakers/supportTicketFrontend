@@ -1,16 +1,24 @@
+import "./dev.css"; 
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
  
-import './dev.css';  
-import Sections from './components/Sections';
-import Header from './components/layouts/Header';
-import Footer from './components/layouts/Footer';
+import NotFound from "./components/pages/NotFound";
+import Layout from "./components/pages/Layout";
+import { RouteList } from "./Routes/Routes"; 
 
 function App() {
-  return (
-    <div className="App">
-      <Header/> 
-         <Sections/>
-      <Footer/>
-    </div>
+  return (  
+      <Router> 
+        <Routes> 
+          <Route path="/" element={<Layout />}> 
+            {
+                RouteList.map(function (item, index) {
+                    return <Route path={item.path} element={item.element}></Route>;
+                })
+            }
+                  <Route path="*" element={<NotFound />}></Route>   
+          </Route> 
+        </Routes>
+      </Router> 
   );
 }
 

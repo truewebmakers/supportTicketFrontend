@@ -1,6 +1,21 @@
-import React from "react"; 
+import React, { useState } from "react"; 
+import { Link } from "react-router-dom";
 
 export const Login = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  console.log("email",email)
+  console.log("password",password)
+  const OnSubmit = () => {
+    console.log("email",email)
+    console.log("password",password)
+
+    fetch().then().then().catch(); 
+  }
+
+
+
+
   return (
    <section className="bg-light py-3 py-md-5">
   <div className="container">
@@ -18,34 +33,40 @@ export const Login = () => {
               <div className="row gy-2 overflow-hidden">
                 <div className="col-12">
                   <div className="form-floating mb-3">
-                    <input type="email" className="form-control" name="email" id="email" placeholder="name@example.com" required=""/>
+                    <input type="email" className="form-control" name="email" id="email" placeholder="name@example.com" 
+                      onChange={(e) => setEmail(e.target.value)}
+                    required=""/>
                     <label for="email" className="form-label">Email</label>
                   </div>
                 </div>
                 <div className="col-12">
                   <div className="form-floating mb-3">
-                    <input type="password" className="form-control" name="password" id="password" value="" placeholder="Password" required=""/>
+                    <input type="password"  className="form-control" name="password" id="password"  placeholder="Password" 
+                    onChange={(e) => setPassword(e.target.value)} required=""/>
                     <label for="password" className="form-label">Password</label>
                   </div>
                 </div>
                 <div className="col-12">
                   <div className="d-flex gap-2 justify-content-between">
-                    <div className="form-check">
+                    {/* <div className="form-check">
                       <input className="form-check-input" type="checkbox" value="" name="rememberMe" id="rememberMe"/>
                       <label className="form-check-label text-secondary" for="rememberMe">
                         Keep me logged in
                       </label>
-                    </div>
+                    </div> */}
                     <a href="#!" className="link-primary text-decoration-none">Forgot password?</a>
                   </div>
                 </div>
                 <div className="col-12">
                   <div className="d-grid my-3">
-                    <button className="btn btn-primary btn-lg" type="submit">Log in</button>
+                    <button className="btn btn-primary btn-lg" type="button" onClick={OnSubmit}>Log in</button>
                   </div>
                 </div>
                 <div className="col-12">
-                  <p className="m-0 text-secondary text-center">Don't have an account? <a href="#!" className="link-primary text-decoration-none">Sign up</a></p>
+                  <p className="m-0 text-secondary text-center">Don't have an account? 
+                    <Link to='/signup' className="link-primary text-decoration-none"> Sing up</Link>
+                    
+                  </p>
                 </div>
               </div>
             </form>
@@ -54,6 +75,6 @@ export const Login = () => {
       </div>
     </div>
   </div>
-</section>
+   </section>
   );
 };
