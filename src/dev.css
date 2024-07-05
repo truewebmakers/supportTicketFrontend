@@ -83,3 +83,7 @@ body {
 ul.errors-ul {
     color: red;
 }
+
+#myCarousel .carousel-item {
+    height: 50vh;
+}
