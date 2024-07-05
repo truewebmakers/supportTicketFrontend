@@ -5,6 +5,8 @@ import NotFound from "./components/pages/NotFound";
 import Layout from "./components/pages/Layout";
 import { RouteList } from "./Routes/Routes"; 
 import ToastProvider from "./ToastProvider";
+import AdminLayout from "./components/Admin/AdminLayout";
+import Dashboard from "./components/Admin/Dashboard";
 
 function App() {
   return (  
@@ -20,6 +22,12 @@ function App() {
             }
                   <Route path="*" element={<NotFound />}></Route>   
           </Route> 
+
+          <Route path="/admin/" element={<AdminLayout />}> 
+             
+              <Route path="dashboard" element={<Dashboard />}></Route>   
+              <Route path="*" element={<NotFound />}></Route>   
+          </Route>  
         </Routes>
       </Router> 
     </>
