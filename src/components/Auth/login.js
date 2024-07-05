@@ -22,8 +22,10 @@ export const Login = () => {
     axiosBaseURL
       .post("login", formData)
       .then(function (response) {
-        setLoader(true);
-        toast.success("Login successfully"); 
+        setLoader(false);
+        toast.success("Login successfully");
+        window.localStorage.setItem('token',response.data.token) 
+        window.localStorage.setItem('userInfo',response.data.userInfo) 
         console.log("response", response);
       })
       .catch(function (error) {
