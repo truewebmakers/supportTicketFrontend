@@ -32,7 +32,7 @@ export default function ListStaff() {
   const handleDelete = (id) => {
     if(window.confirm('Are you sure you want to delete?')){
       axiosBaseURL
-      .post("/user/destroy",{'id' : id})
+      .post("/user/delete",{'id' : id})
       .then((response) => { 
         toast.success("User Deleted Successfully");
       })
@@ -86,7 +86,7 @@ export default function ListStaff() {
                     </span>
                   </td>
                   <td>{user.email}</td>
-                  <td>Depar</td>
+                  <td>{(user.department) && user.department.department.name}</td>
                   <td>{user.status}</td>
 
                   <td className="text-end">
