@@ -1,6 +1,33 @@
-import React from "react";
+import React, { useState,useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import axiosBaseURL from "../../../AxiosConfig";
+import { toast } from "react-toastify";
 
 export default function NewTicket() {
+
+  const [departmentList, setDepartmentList] = useState([]);
+  const [departmentId, setDepartmentId] = useState("");
+  const navigate = useNavigate(); 
+  const [userinfo, setUserInfo] = useState("");
+  useEffect(() => {
+    const userinfo = JSON.parse(window.localStorage.getItem('userInfo')) ; 
+    setUserInfo(userinfo);  
+    getDepartmentList();
+  }, []);
+
+  const getDepartmentList = () => {
+    axiosBaseURL
+      .post("/department/list")
+      .then((response) => {
+        setDepartmentList(response.data.data);
+        toast.success("List fetched");
+      })
+      .catch(() => {
+        toast.error("There is some error");
+      });
+  };
+
+
   return (
     <div className="container-fluid">
       <div className="card shadow border-0 mb-7">
@@ -19,12 +46,13 @@ export default function NewTicket() {
               />
             </div>
             <div className="form-group py-2">
-              <input
-                name="department"
-                type="text"
-                className="form-control"
-                placeholder="Department"
-              />
+            <select name="department_id" id="department_id" className="form-control" onChange={(e) => setDepartmentId(e.target.value)}> 
+                <option>Select Department</option>
+                {departmentList.map((department, index) => (
+                  <option value={department?.id}>{department?.name}</option>
+                ))}
+
+              </select>
             </div>
             <div className="form-group py-2">
               <textarea
