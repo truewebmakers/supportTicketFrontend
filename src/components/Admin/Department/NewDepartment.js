@@ -1,40 +1,83 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import axiosBaseURL from '../../../AxiosConfig';
+import { toast } from 'react-toastify';
 export default function NewDepartment() {
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState(""); 
+  const [userinfo, setUserInfo] = useState(""); 
+  const [loader, setLoader] = useState(false);
+  const [errors, setErrors] = useState({});
+
+  const navigate = useNavigate(); 
+
+  useEffect(() => {
+
+    const userinfo = JSON.parse(window.localStorage.getItem('userInfo')) ; 
+    setUserInfo(userinfo);  
+
+  }, []);
+
+  let formData = {
+    name: name,
+    description: description, 
+    manager_id: 0,
+    admin_id : userinfo?.id
+  };
+ 
+
+  const OnSubmit = () => {
+    setLoader(true);
+
+    axiosBaseURL
+      .post("/department/store", formData)
+      .then(function (response) {
+        toast.success("Department added");  
+        
+        setLoader(false);
+        navigate('/admin/department/list'); 
+      })
+      .catch(function (error) {
+        if (error.response && error.response.status === 422) {
+          setLoader(false);
+          setErrors(error.response.data.error);
+        } else {
+          setLoader(false);
+          toast.error(error.response.data.error);
+          setErrors({});
+        }
+      });
+  };
+
   return (
     <div className="container-fluid">
       <div className="card shadow border-0 mb-7">
         <div className="card-header">
-          <h5 className="mb-0">Add User</h5>
-          <Link to={'/admin/department/add'} className="btn btn-info btn-sm float-end">Add Department</Link>
+          <h5 className="mb-0">Add Department</h5>
+          <Link to={'/admin/department/list'} className="btn btn-info btn-sm float-end">List</Link>
         </div>
 
         <form action="#" method="post">
         <div className="modal-body ">
             <div className="form-group py-2">
-              <input name="fname"  type="text" className="form-control"  placeholder="Jhon" />
+              <input name="name"  type="text" className="form-control" onChange={(e) => setName(e.target.value)} placeholder="HR" />
             </div>
 
             <div className="form-group py-2">
-              <input name="lname"  type="text" className="form-control"  placeholder="Smith" />
-            </div>
-
-            <div className="form-group py-2">
-              <input name="email"  type="email" className="form-control"  placeholder="exam@example.com" />
-            </div>
-
-            <div className="form-group py-2">
-              <input name="password"  type="password" className="form-control"  placeholder="********" />
-            </div>
-
-            <div className="form-group py-2">
-              <input name="department"  type="text" className="form-control" placeholder="Department"/>
+              <input name="description"  type="text" className="form-control"  onChange={(e) => setDescription(e.target.value)} placeholder="Description" />
             </div> 
+            
             </div>
           
           <div className="modal-footer">
-            <button type="button" className="btn btn-primary pull-right">
-              <i className="fa fa-pencil" /> Create
+            <button type="button" className="btn btn-primary pull-right" onClick={OnSubmit}>
+            <i className="fa fa-pencil" />  {loader  && <span
+                            class="spinner-border spinner-border-sm"
+                            role="status"
+                            aria-hidden="true"
+                          ></span>}
+                        {loader ? 'Creating...' : 'Create'}
+             
             </button>
           </div>
         </form>

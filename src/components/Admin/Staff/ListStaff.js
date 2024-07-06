@@ -1,8 +1,51 @@
-import React from 'react';
+import React, { useState,useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import axiosBaseURL from '../../../AxiosConfig';
+import { toast } from 'react-toastify';
 
 export default function ListStaff() {
+  const [usersList, setUsersList] = useState([]);
+  const [userinfo, setUserInfo] = useState(""); 
+
+  useEffect(() => {
+    const userinfo = JSON.parse(window.localStorage.getItem('userInfo')) ; 
+    setUserInfo(userinfo);
+    const formData = {
+      'user_type' : 'user',
+      'admin_id' : userinfo?.id
+    }
+    getDepartmentList(formData);
+  }, []);
+
+  const getDepartmentList = (formData) => {
+    axiosBaseURL
+      .post("/users/list",formData)
+      .then((response) => {
+        setUsersList(response.data.data);
+        toast.success("List fetched");
+      })
+      .catch(() => {
+        toast.error("There is some error");
+      });
+  };
+
+  const handleDelete = (id) => {
+    if(window.confirm('Are you sure you want to delete?')){
+      axiosBaseURL
+      .post("/user/destroy",{'id' : id})
+      .then((response) => { 
+        toast.success("User Deleted Successfully");
+      })
+      .catch(() => {
+        toast.error("There is some error");
+      });
+    }
+   
+  };
+  
   return (
+
+    
     <div className="container-fluid">
       
       <div className="card shadow border-0 mb-7">
@@ -14,97 +57,55 @@ export default function ListStaff() {
           <table className="table table-hover table-nowrap">
             <thead className="thead-light">
               <tr>
+              <th scope="col">Sr.No</th>
                 <th scope="col">Name</th>
-                <th scope="col">Date</th>
-                <th scope="col">Company</th>
-                <th scope="col">Offer</th>
-                <th scope="col">Meeting</th>
+                <th scope="col">Phone</th>
+                <th scope="col">Email</th>
+                <th scope="col">Department</th>
+                <th scope="col">Type</th>
+                <th className="text-end" scope="col">Action</th>
                 <th />
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>
-                  <img
-                    alt="..."
-                    src="https://images.unsplash.com/photo-1612422656768-d5e4ec31fac0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=256&h=256&q=80"
-                    className="avatar avatar-sm rounded-circle me-2"
-                  />
-                  <a className="text-heading font-semibold" href="#">
-                    Kristin Watson
-                  </a>
-                </td>
-                <td>Feb 15, 2021</td>
-                <td>
-                  <img
-                    alt="..."
-                    src="https://preview.webpixels.io/web/img/other/logos/logo-4.png"
-                    className="avatar avatar-xs rounded-circle me-2"
-                  />
-                  <a className="text-heading font-semibold" href="#">
-                    Mailchimp
-                  </a>
-                </td>
-                <td>$3.500</td>
-                <td>
-                  <span className="badge badge-lg badge-dot">
-                    <i className="bg-dark" />
-                    Not discussed
-                  </span>
-                </td>
-                <td className="text-end">
-                  <a href="#" className="btn btn-sm btn-neutral">
-                    View
-                  </a>
-                  <button
-                    type="button"
-                    className="btn btn-sm btn-square btn-neutral text-danger-hover"
-                  >
-                    <i className="bi bi-trash" />
-                  </button>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <img
-                    alt="..."
-                    src="https://images.unsplash.com/photo-1608976328267-e673d3ec06ce?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=256&h=256&q=80"
-                    className="avatar avatar-sm rounded-circle me-2"
-                  />
-                  <a className="text-heading font-semibold" href="#">
-                    Cody Fisher
-                  </a>
-                </td>
-                <td>Apr 10, 2021</td>
-                <td>
-                  <img
-                    alt="..."
-                    src="https://preview.webpixels.io/web/img/other/logos/logo-5.png"
-                    className="avatar avatar-xs rounded-circle me-2"
-                  />
-                  <a className="text-heading font-semibold" href="#">
-                    Webpixels
-                  </a>
-                </td>
-                <td>$1.500</td>
-                <td>
-                  <span className="badge badge-lg badge-dot">
-                    <i className="bg-danger" />
-                    Canceled
-                  </span>
-                </td>
-                <td className="text-end">
-                  <a href="#" className="btn btn-sm btn-neutral">
-                    View
-                  </a>
-                  <button
-                    type="button"
-                    className="btn btn-sm btn-square btn-neutral text-danger-hover"
-                  >
-                    <i className="bi bi-trash" />
-                  </button>
-                </td>
-              </tr>
+              {usersList.map((user, index) => (
+                <tr key={index}>
+                  <td>{index + 1}</td>
+                  <td>
+                    <Link
+                      to={`/admin/department/${user.id}`}
+                      className="text-heading font-semibold"
+                    >
+                      {user.fname} {user.lname} 
+                    </Link>
+                  </td>
+
+                  <td>
+                    <span className="text-heading font-semibold">
+                      {user.phone}
+                    </span>
+                  </td>
+                  <td>{user.email}</td>
+                  <td>Depar</td>
+                  <td>{user.status}</td>
+
+                  <td className="text-end">
+                    <Link
+                      to={`/admin/department/${user.id}`}
+                      className="btn btn-sm btn-neutral"
+                    >
+                      View
+                    </Link>
+                    <button
+                      type="button"
+                      className="btn btn-sm btn-square btn-neutral text-danger-hover"
+                      onClick={() => handleDelete(user.id)}
+                    >
+                      <i className="bi bi-trash" />
+                    </button>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
