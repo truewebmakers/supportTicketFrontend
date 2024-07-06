@@ -25,6 +25,8 @@ export const Register = () => {
     phone:phone,
     password: password,
     cpassword: cpassword,
+    user_type:'admin',
+    admin_id : 0
   };
 
   const OnSubmit = () => {

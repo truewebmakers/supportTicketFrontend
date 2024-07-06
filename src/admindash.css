@@ -205,4 +205,8 @@ a.navbar-brand {
 }
 
 .fliph .user-panel{ display: none; } 
+
+.dash-main{
+    width: 100%;
+}
  

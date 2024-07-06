@@ -26,7 +26,7 @@ export const Login = () => {
         setLoader(false);
         toast.success("Login successfully");
         window.localStorage.setItem('token',response.data.token) 
-        window.localStorage.setItem('userInfo',response.data.userInfo) 
+        window.localStorage.setItem('userInfo',JSON.stringify(response.data.userInfo))
         navigate('/admin/dashboard');
 
       })
