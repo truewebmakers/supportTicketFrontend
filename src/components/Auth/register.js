@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Sidenav } from "./sidenav";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axiosBaseURL from "../../AxiosConfig";
 import { toast } from "react-toastify";
 
@@ -15,6 +15,8 @@ export const Register = () => {
 
   const [loader, setLoader] = useState(false);
   const [errors, setErrors] = useState({});
+
+  const navigate = useNavigate(); 
 
   let formData = {
     fname: fname,
@@ -31,9 +33,10 @@ export const Register = () => {
     axiosBaseURL
       .post("register", formData)
       .then(function (response) {
-        toast.success("Your are register successfully"); 
-        console.log("response", response);
+        toast.success("Your are register successfully");  
+        
         setLoader(false);
+        navigate('/login'); 
       })
       .catch(function (error) {
         if (error.response && error.response.status === 422) {
@@ -200,9 +203,7 @@ export const Register = () => {
                               aria-hidden="true"
                             ></span>
                           )}
-                          <span class="sr-only">
-                            {loader ? "Submitting..." : "Singup"}
-                          </span>
+                          {loader ? "Submitting..." : "Singup"}
                         </button>
                       </div>
                     </div>

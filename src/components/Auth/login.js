@@ -1,16 +1,17 @@
-import axios from "axios";
+ 
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axiosBaseURL from "../../AxiosConfig";
+import { useNavigate } from 'react-router-dom';
 
 export const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loader, setLoader] = useState(false);
   const [errors, setErrors] = useState({});
-
+  const navigate = useNavigate(); 
   const formData = {
     email: email,
     password: password,
@@ -26,7 +27,8 @@ export const Login = () => {
         toast.success("Login successfully");
         window.localStorage.setItem('token',response.data.token) 
         window.localStorage.setItem('userInfo',response.data.userInfo) 
-        console.log("response", response);
+        navigate('/admin/dashboard');
+
       })
       .catch(function (error) {
         if (error.response && error.response.status === 422) {
@@ -130,9 +132,7 @@ export const Login = () => {
                             role="status"
                             aria-hidden="true"
                           ></span>}
-                          <span class="sr-only">
-                             {loader ? 'Submitting...' : 'Log In'}
-                            </span>
+                        {loader ? 'Submitting...' : 'Log In'}
                         </button>
  
                       </div>
