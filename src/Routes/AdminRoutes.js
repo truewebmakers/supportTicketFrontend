@@ -7,6 +7,7 @@ import NewStaff from '../components/Admin/Staff/NewStaff';
 import ListStaff from '../components/Admin/Staff/ListStaff';
 import NewDepartment from '../components/Admin/Department/NewDepartment';
 import ListDepartment from '../components/Admin/Department/ListDepartment';
+import ViewTicket from '../components/Admin/tickets/ViewTicket';
 
 export const AdminRouteList = [
      
@@ -23,6 +24,11 @@ export const AdminRouteList = [
         element:<NewTicket/>
     },
     {
+        path:'ticket/view/:id',
+        
+        element:<ViewTicket/>
+    },
+    {
         path:'staff/new',
         element:<NewStaff/>
     },
@@ -37,7 +43,10 @@ export const AdminRouteList = [
     {
         path:'department/list',
         element:<ListDepartment/>
-    } 
+    },
+    
+
+   
      
 ];
  

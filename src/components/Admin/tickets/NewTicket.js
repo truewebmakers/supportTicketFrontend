@@ -7,6 +7,13 @@ export default function NewTicket() {
 
   const [departmentList, setDepartmentList] = useState([]);
   const [departmentId, setDepartmentId] = useState("");
+  const [loader, setLoader] = useState(false);
+  const [errors, setErrors] = useState({});
+
+  const [subject, setSubject] = useState("");
+
+  const [query, setQuery] = useState("");
+  const [file, setFile] = useState("");
   const navigate = useNavigate(); 
   const [userinfo, setUserInfo] = useState("");
   useEffect(() => {
@@ -27,6 +34,36 @@ export default function NewTicket() {
       });
   };
 
+  let formData = {
+    subject: subject,
+    query: query,
+    user_id: userinfo?.id,
+    file:file, 
+  };
+ 
+  const OnSubmit = () => {
+    setLoader(true);
+
+    axiosBaseURL
+      .post("tickets/store", formData)
+      .then(function (response) {
+        toast.success("Ticket added");  
+        
+        setLoader(false);
+        navigate('/admin/ticket'); 
+      })
+      .catch(function (error) {
+        if (error.response && error.response.status === 422) {
+          setLoader(false);
+          setErrors(error.response.data.error);
+        } else {
+          setLoader(false);
+          toast.error(error.response.data.error);
+          setErrors({});
+        }
+      });
+  };
+
 
   return (
     <div className="container-fluid">
@@ -43,13 +80,14 @@ export default function NewTicket() {
                 type="text"
                 className="form-control"
                 placeholder="Subject"
+                onChange={(e) => setSubject(e.target.value)}
               />
             </div>
             <div className="form-group py-2">
             <select name="department_id" id="department_id" className="form-control" onChange={(e) => setDepartmentId(e.target.value)}> 
                 <option>Select Department</option>
                 {departmentList.map((department, index) => (
-                  <option value={department?.id}>{department?.name}</option>
+                  <option key={index} value={department?.id}>{department?.name}</option>
                 ))}
 
               </select>
@@ -61,6 +99,7 @@ export default function NewTicket() {
                 placeholder="Please detail your issue or question"
                 style={{ height: 120 }}
                 defaultValue={""}
+                onChange={(e) => setQuery(e.target.value)}
               />
             </div>
             <div className="form-group py-2">
@@ -68,8 +107,14 @@ export default function NewTicket() {
             </div>
           </div>
           <div className="modal-footer"> 
-            <button type="button" className="btn btn-primary pull-right">
-              <i className="fa fa-pencil" /> Create
+          <button type="button" className="btn btn-primary pull-right" onClick={OnSubmit}>
+            <i className="fa fa-pencil" />  {loader  && <span
+                            className="spinner-border spinner-border-sm"
+                            role="status"
+                            aria-hidden="true"
+                          ></span>}
+                        {loader ? 'Creating...' : 'Create'}
+             
             </button>
           </div>
         </form>

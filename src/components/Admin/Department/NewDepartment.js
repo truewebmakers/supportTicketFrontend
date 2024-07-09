@@ -72,7 +72,7 @@ export default function NewDepartment() {
           <div className="modal-footer">
             <button type="button" className="btn btn-primary pull-right" onClick={OnSubmit}>
             <i className="fa fa-pencil" />  {loader  && <span
-                            class="spinner-border spinner-border-sm"
+                            className="spinner-border spinner-border-sm"
                             role="status"
                             aria-hidden="true"
                           ></span>}

@@ -92,7 +92,7 @@ export const Register = () => {
                           required=""
                           onChange={(e) => setFname(e.target.value)}
                         />
-                        <label for="fname" className="form-label">
+                        <label htmlFor="fname" className="form-label">
                           First name
                         </label>
                       </div>
@@ -108,7 +108,7 @@ export const Register = () => {
                           required=""
                           onChange={(e) => setLname(e.target.value)}
                         />
-                        <label for="fname" className="form-label">
+                        <label htmlFor="fname" className="form-label">
                           Last name
                         </label>
                       </div>
@@ -125,7 +125,7 @@ export const Register = () => {
                           onChange={(e) => setEmail(e.target.value)}
 
                         />
-                        <label for="email" className="form-label">
+                        <label htmlFor="email" className="form-label">
                           Email
                         </label>
                       </div>
@@ -143,7 +143,7 @@ export const Register = () => {
                           onChange={(e) => setPhone(e.target.value)}
 
                         />
-                        <label for="email" className="form-label">
+                        <label htmlFor="email" className="form-label">
                           Phone
                         </label>
                       </div>
@@ -160,7 +160,7 @@ export const Register = () => {
                           onChange={(e) => setPassword(e.target.value)}
 
                         />
-                        <label for="password" className="form-label">
+                        <label htmlFor="password" className="form-label">
                           Password
                         </label>
                       </div>
@@ -193,14 +193,14 @@ export const Register = () => {
                     <div className="col-12">
                       <div className="d-grid my-3">
                         <button
-                          class="btn btn-primary"
+                          className="btn btn-primary"
                           onClick={OnSubmit}
                           disabled={loader}
                           type="button"
                         >
                           {loader && (
                             <span
-                              class="spinner-border spinner-border-sm"
+                              className="spinner-border spinner-border-sm"
                               role="status"
                               aria-hidden="true"
                             ></span>

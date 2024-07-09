@@ -87,3 +87,6 @@ ul.errors-ul {
 #myCarousel .carousel-item {
     height: 50vh;
 }
+.comment.card.shadow.border-0.mb-7.py-4 {
+    padding: 50px;
+}

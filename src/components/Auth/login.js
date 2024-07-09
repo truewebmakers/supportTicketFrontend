@@ -27,7 +27,7 @@ export const Login = () => {
         toast.success("Login successfully");
         window.localStorage.setItem('token',response.data.token) 
         window.localStorage.setItem('userInfo',JSON.stringify(response.data.userInfo))
-        navigate('/admin/dashboard');
+        navigate('/admin/dashboard'); 
 
       })
       .catch(function (error) {
@@ -82,7 +82,7 @@ export const Login = () => {
                           onChange={(e) => setEmail(e.target.value)}
                           required=""
                         />
-                        <label for="email" className="form-label">
+                        <label htmlFor="email" className="form-label">
                           Email
                         </label>
                       </div>
@@ -98,7 +98,7 @@ export const Login = () => {
                           onChange={(e) => setPassword(e.target.value)}
                           required=""
                         />
-                        <label for="password" className="form-label">
+                        <label htmlFor="password" className="form-label">
                           Password
                         </label>
                       </div>
@@ -121,14 +121,14 @@ export const Login = () => {
                     </div>
                     <div className="col-12">
                       <div className="d-grid my-3">
-                        <button class="btn btn-primary" 
+                        <button className="btn btn-primary" 
 
                         onClick={OnSubmit}
                         disabled={loader}
                         
                         type="button">
                           {loader  && <span
-                            class="spinner-border spinner-border-sm"
+                            className="spinner-border spinner-border-sm"
                             role="status"
                             aria-hidden="true"
                           ></span>}
